@@ -1,0 +1,23 @@
+1. Set Execute Permissions: Before proceeding, ensure execution permissions are set for files. Use the command below after unzipping the files:
+        sudo chmod +x *
+
+    2. Open two terminal windows on your Ubuntu PC.
+
+    Terminal 1 (Sqrl Bridge): In the first terminal, execute the Sqrl bridge using the following command:
+        sudo ./start_bridge.sh
+    (Note: - Wait for the bitstream to finish loading in this terminal before proceeding to the next step and DON'T close this terminal 1
+          - Recommend you use skipCommand=2 flag in this start_bridge.sh file to ignore loading bitstream from the second time running (To save your time)
+
+
+    Terminal 2 (Mining): In the second terminal, begin mining using the command:
+        sudo ./startMiner.sh
+    (Note: Before running the miner, ensure you have set your wallet address, clock settings, worker ID, and pool in the startMiner.sh script file)
+
+    Refer clock and vccInt for JC_35 bitstream
+
+    vccInt      Clock
+    600 mV     600-650 MHz
+    650 mV     690-740 MHz  
+    680 mV     740-770 MHz 
+    700 mV     770-810 MHz
+    730 mV     800-850 MHz 

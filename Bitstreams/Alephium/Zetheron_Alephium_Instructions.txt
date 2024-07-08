@@ -1,0 +1,107 @@
+INSTRUCTIONS for using WHITEFIRE990's Alphium Bitstream with the  automatic firmware called ZetheronAlephiumV2.1
+
+DESCRIPTION
+    Dev fee: 15%
+
+SUPPORTED DEVICES:
+    ECU50, FK33, TH55, H53, TH53M (Please feedback result), C1100, U200, BCU1525
+
+KNOW ISSUE:
+*) If you are U200 rigs: please copy loadAll_u200.sh to loadAll.sh , and change path /home/ubuntu/Zetheron-Alphium-V2.1 at 57th line to yours
+*) If you are FK33 rigs: you may copy loadAll_fk.sh to loadAll.sh, and change path /home/ubuntu/Zetheron-Alphium-V2.1 at 57th line to yours
+
+
+PLEASE REPORT BUGS
+    If you find bugs please create a text file with your discord username.txt and include the bugs and DM it to whitefire990
+
+FILE DESCRIPTIONS
+    alephium_bits   -> directory that stores all the bitstreams for each card type
+    changeVoltage   -> external executable that changes voltage (run automatically by Zethminer)
+    loadAll.sh      -> script that you can execute to program all cards on your system
+    nextjag         -> free unlicensed version of nextjtag run internally by Zethminer to detect which cards are on the system
+    openFPGALoader  -> custom modification of freeware program, adjusted to program crypto card bitstreams,
+                       run in the background by Zethminer
+    Zethminer_Alephium_Instructions.txt   -> this file
+    startMiner.sh   -> an example loop-launch file you can use to execute Zethminer, described more below
+    ZetheronAlephiumV2.1 -> executable file of the miner
+
+OPERATING INSTRUCTIONS                   
+    The "libftdi1-2" library is required for using the automatic bitstream programming function; please run command line below to install it:
+         sudo apt-get install libftdi1-2 -y
+
+    Next run these commands, once only, to set file permissions:
+             chmod -x  *
+
+    1. Direct command line launch method
+        Step 1: Open a Terminal
+            Open a terminal window on your Ubuntu system. Ubuntu 16,18,20 have been tested.  Ubuntu 22 might work.
+            
+        Step 2: Navigate to the ZetheronAlephiumV2.1 Directory.  If necessary run:
+            chmod -x *
+            
+        Step 3: Run ZetheronAlephiumV2.1 on the command line as follows:
+            sudo ./ZetheronAlephiumV2.1 -o "Alephium_Pool" -u "Alephium_Wallet" --max-temp="max_temp" -t "clock1,clock2,clock3,clock4...clockN" -v "vccint" -l "loadBitVol" --skip "skipCommand"
+            Replace:
+                "Alephium_Pool" with your pool
+                "Alephium_Wallet" with your wallet address
+                "max_temp" with your maximum temperature ( recommend from 65 to 90 )
+                "clock" with your starting FPGA clock (if using multiple clocks, separate with commas like -t 450,450,500,500 )
+                "vccint" with your desired FPGA Core Voltage (recommended 650)
+                "skipCommand" with 
+                               0 : change voltage/vccInt and program bitstreams before mining
+                               1 : load bitstream only before mining (don't change voltage/vccInt)
+                               2 : don't change voltage or program bitstreams before mining
+                "loadBitVol" with value 6 or 15 
+                    6  means program bitstreams with jtag clock 6 MHz
+                    15 means program bitstreams with jtag clock 15 MHz (faster loading)
+                    By detault the jtag clock is 6 MHz
+
+                Example:   ./ZetheronAlephiumV2.1 -o stratum+tcp://us.vipor.net:5051 -u 1ueouD2tTePMuXpkeTpXcahwgjGhDBMcWrR3ZS4zuNWh.ZetheronAlphium --max-temp=80 -t 700 -l 15 -v 650 -p 4 --skip 1
+
+
+    2. Separated command line launch method
+        You can manually separate the steps of programming the bistreams & launching the miner, for advanced users, like this:
+            sudo ./loadAll.sh 6 --enable        (program the bitstreams)
+            (then run the miner with --skip 2 to avoid changing voltage or programming bitstreams)
+            sudo  ./ZetheronAlephiumV2.1 -o stratum+tcp://us.vipor.net:5051 -u 1ueouD2tTePMuXpkeTpXcahwgjGhDBMcWrR3ZS4zuNWh.ZetheronAlphium --max-temp=80 -t 700 -l 15 -v 650 -p 4 --skip 2 
+
+
+    3. Pre-made launch script execution method
+        In this method, you will edit startMiner.sh for your own personal settings & preferences, then you will simply launch the script:
+        > startMiner.sh
+        
+        In startMiner.sh, you will see a number of fields you need to change to your preference:
+        wallet=1ueouD2tTePMuXpkeTpXcahwgjGhDBMcWrR3ZS4zuNWh
+        pool=stratum+tcp://us.vipor.net:5051
+        workerID=ZetheronAlphium
+        maxtemp=80
+        clock=700
+        vccInt=650
+        skipCommand=1
+
+        These fields are then automatically plugged onto the command line when the script launches Zethminer in a loop.
+    
+
+WHILE MINING    
+    
+While mining, the following hot keys can be used to execute certain functions:
+
+ctrl c : exit miner by reduce clock gradually
+ctrl z : exit miner by reduce clock gradually
+esc    : exit miner by reduce clock gradually
++      : raise clock 10 MHz for all FPGA(s)
+-      : reduce clock 10 MHz for all FPGA(s)
+
+CLOCKS & CORE VOLTAGES & PERFORMANCE:
+//TODO
+
+HASH RATE
+//TODO
+
+** PLEASE NOTE YOUR HASH RATE IS EXACTLY CALCULATED BY THE ABOVE FORMULA, AND THE DISPLAYED HASH RATE IS ESSENTIALLY YOUR LUCK IN THE LAST 5 MINUTES **
+** PLEASE ALLOW POOL-SIDE HASH RATE 24 HOURS TO REACH THE THEORTICAL VALUE **
+
+ 
+E300 Users
+If you have E300/E335/E333/E100, please update the firmware from the Osprey Web-GUI and visit the Osprey discord, as 
+the E300 uses different internal firmware.
