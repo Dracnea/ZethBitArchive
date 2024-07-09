@@ -1,0 +1,28 @@
+# Device 0001 - S5 family 
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", \
+ATTR{idVendor}=="2528", ATTR{idProduct}=="0001", SYMLINK+="bwusb%k", MODE="0666", RUN+="bwnotify %k"
+
+# Device 0003 - A5P products
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", \
+ATTR{idVendor}=="2528", ATTR{idProduct}=="0003", SYMLINK+="bwusb%k", MODE="0666", RUN+="bwnotify %k"
+
+# Device 0004 - A5S products 
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", \
+ATTR{idVendor}=="2528", ATTR{idProduct}=="0004", SYMLINK+="bwusb%k", MODE="0666", RUN+="bwnotify %k"
+
+# Device 0005 - A5S products 
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", \
+ATTR{idVendor}=="2528", ATTR{idProduct}=="0005", SYMLINK+="bwusb%k", MODE="0666", RUN+="bwnotify %k"
+
+# Device 1111 - firmware bootloader devices
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", \
+ATTR{idVendor}=="2528", ATTR{idProduct}=="1111", SYMLINK+="bwusb%k", MODE="0666", RUN+="bwnotify %k"
+
+# Device 1115 - firmware bootloader devices
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", \
+ATTR{idVendor}=="2528", ATTR{idProduct}=="1115", SYMLINK+="bwusb%k", MODE="0666", RUN+="bwnotify %k"
+
+# Device 0001 - S5 family 
+ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", \
+ENV{ID_VENDOR_ID}=="2528", RUN+="bwnotify %k"
+

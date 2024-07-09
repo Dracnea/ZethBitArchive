@@ -1,0 +1,94 @@
+#!/bin/bash
+#
+# Desc:
+#
+#  Provided by
+#  -----------
+#      BittWare, Inc.
+#      45 South Main St. Suite L100
+#      Concord, NH 03301
+#      Ph:     (603) 226 0404
+#      Fax:    (603) 226 6667
+#      WWW:    http://www.bittware.com
+#      Email:  support@bittware.com
+#
+# Copyright (C) 2019, BittWare, Inc.
+#
+# License:
+# This source code is provided to you (the Licensee) under
+# license by BittWare, a Molex Company.  To view or use this
+# source code, the Licensee must accept a Software License
+# Agreement (viewable at developer.bittware.com), which is
+# commonly provided as a click-through license agreement.  The
+# terms of the Software License Agreement govern all use and
+# distribution of this file unless an alternative superseding
+# license has been executed with BittWare.  This source code
+# and its derivatives may not be distributed to third parties
+# in source code form.  Software including or derived from this
+# source code, including derivative works thereof created by
+# Licensee, may be distributed to third parties with BITTWARE
+# hardware only and in executable form only.
+#   
+# The click-thorough license is available here:
+# https://developer.bittware.com/software_license.txt
+#
+
+SELF=$(readlink -f $0)
+PBIN=$(dirname $SELF)
+BASE=$(readlink -f $PBIN/..)
+
+LDPATH=$BASE/lib
+
+SHIN=$BASE/etc/bwtk.sh.in
+SHOUT=/etc/profile.d/bwtk.sh
+
+LDIN=$BASE/etc/bwtk-ld.x86_64.conf.in
+LDOUT=/etc/ld.so.conf.d/bwtk-ld.x86_64.conf
+
+if [ ! -f "$SHIN" ]; then
+	echo "missing bwtk.sh in $BASE/etc"
+	exit 1;
+fi
+
+echo "SELF is $SELF"
+echo "PBIN is $PBIN"
+echo "BASE is $BASE"
+echo "SHIN is $SHIN"
+
+sed "s,@BASE@,$BASE," $SHIN > $SHOUT
+sed -i "s,@PBIN@,$PBIN," $SHOUT
+
+sed "s,@LDPATH@,$LDPATH," $LDIN > $LDOUT
+/sbin/ldconfig
+
+RMM=`rmmod bwpcidrv 2>&1 >/dev/null`
+
+#menu stuff
+if [ -d /usr/share/applications ]; then
+	cp -f $BASE/etc/menu/*.desktop /usr/share/applications/
+fi
+
+
+if [ -d /lib/udev/rules.d ]; then 
+	cp -f $BASE/drivers/udev/99-bittware.rules /lib/udev/rules.d/
+elif [ -d /etc/udev/rules.d ]; then
+	cp -f $BASE/drivers/udev/99-bittware.rules /etc/udev/rules.d/
+else
+	echo "ERROR: cannot determine udev rule files location"
+	exit 1;
+fi
+
+####################
+# re-run udev so it'll see our USB rules file
+echo "Telling udev to reexamine rules..."
+UDEVADM=`which udevadm 2>/dev/null`
+if [ ! -z "$UDEVADM" ]; then
+$UDEVADM control --reload-rules
+else
+/sbin/udevcontrol reload_rules
+fi
+
+echo -e "\n"
+echo "NOTICE: It may be necessary to disconnect and reconnect any USB "
+echo "devices before they can be opened by non-root users."
+

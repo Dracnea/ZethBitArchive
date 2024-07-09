@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BWCFGUSER=`ps ax -o user,comm | grep bwconfig-gui | cut -d' ' -f 1`
+BWCFGPID=`ps ax -o pid,comm | grep bwconfig-gui | sed "s/^ //" | cut -d' ' -f 1`
+DBUSSADR=`strings /proc/$BWCFGPID/environ | grep DBUS_SESSION_BUS_ADDRESS`
+EXPVAR="export $DBUSADDR"
+
+export DISPLAY=:0.0
+eval $EXPVAR
+
+DBUSACT=`su $BWCFGUSER -c "$DBUSSADR /usr/bin/qdbus | grep 'com\.bittware\.bwcfg'"`
+
+if [ ! -z "$DBUSACT" ]; then
+	su $BWCFGUSER -c "$DBUSSADR /usr/bin/qdbus com.bittware.bwcfg / com.bittware.bwcfg.USBEvent $1"
+fi
+
