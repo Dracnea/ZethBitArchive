@@ -1,0 +1,5 @@
+# License file for nextjtag version 2.x
+#
+# DNA followed by license key using a tab spacer (/t)
+400100000XXXXXXXXXXXXXXX    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+400200000XXXXXXXXXXXXXXX    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
