@@ -10,4 +10,4 @@ if ! dpkg -l | grep -q "libftdi1-2"; then
     sudo apt-get install libftdi1-2 -y
 fi
 
-/ZethMultiMiner/ZetheronMiners/Nimiq/FPGAMinerNIM-Linux-v10 -o $pool -u $wallet -t $core_clock -p $rig_name --max-temp=80
+/ZethMultiMiner/Miners/Nimiq/FPGAMinerNIM-Linux-v10 -o $pool -u $wallet -t $core_clock -p $rig_name --max-temp=80
