@@ -7,4 +7,9 @@ core_clock=300
 
 complexWallet=$wallet.$rig_name
 
-/ZethMultiMiner/ZetheronMiners/FPGAMinerNIM-Linux-v10 -o $pool -u $complexWallet -t $core_clock
+if ! dpkg -l | grep -q "libftdi1-2"; then
+	echo "Installing libftdi1-2..."
+    sudo apt-get install libftdi1-2 -y
+fi
+
+/ZethMultiMiner/ZetheronMiners/Nimiq/FPGAMinerNIM-Linux-v10 -o $pool -u $complexWallet -t $core_clock
