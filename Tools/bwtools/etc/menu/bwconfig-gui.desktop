@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=BwConfig
-Exec=bwconfig-gui
-Icon=/opt/bwtk/2020.1L/etc/icon/BW-icon-wrench.svg
-Type=Application
-GenericName=BittWorks Toolkit II Config GUI
-Categories=Qt;System;

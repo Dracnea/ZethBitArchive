@@ -1,9 +1,0 @@
-# set BWTK environment variable
-# and PATH to include $BWTK/bin
- 
-if [ -d "@BASE@" ]; then
-	export BWTK=@BASE@
-	export PATH=@PBIN@:$PATH
-fi
-
-
