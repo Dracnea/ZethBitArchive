@@ -57,6 +57,8 @@ Hit escape, type :wq, and hit enter to save and exit.
 
 ## Install Libqt
 
+`sudo apt install software-properties-common`
+
 `sudo add-apt-repository ppa:ubuntuhandbook1/ppa`
 
 `sudo apt update`
