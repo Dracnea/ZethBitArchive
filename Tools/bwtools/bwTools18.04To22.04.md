@@ -67,7 +67,7 @@ Hit escape, type :wq, and hit enter to save and exit.
 
 ## Install libusb
 
-`sudo apt install -y libusb01.0-0-dev`
+`sudo apt install -y libusb01.0-0-dev` or `sudo apt-get install libusb-1.0-0-dev`
 
 `sudo apt-get install libusb-0.1-4`
 
@@ -108,6 +108,8 @@ Install, this will handle both php -core and -cli dependencies
 Run dpkg to install the included db package.
 
 `sudo dpkg -i bw2tk-lite-2020.1.u18.04.amd64.deb`
+
+## Invalid Install Clear
 
 In the event that dependencies are not met and errors arise you will have to perform
 
